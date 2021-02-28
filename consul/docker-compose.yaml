@@ -1,0 +1,69 @@
+version: "3.6"
+services:
+  #server 1
+  consul-server-5-100:
+    image: consul
+    ports:
+    - "8500:8500"
+    networks:
+      go:
+        ipv4_address: 192.168.5.100
+    container_name: consul-server-5-100
+    command: consul agent -server -bootstrap-expect 3 -data-dir /consul/data -node=consul-server-5-100 -bind=192.168.5.100 -ui -client=0.0.0.0
+  #server 2
+  consul-server-5-101:
+    image: consul
+    ports:
+      - "8501:8500"
+    networks:
+      go:
+        ipv4_address: 192.168.5.101
+    container_name: consul-server-5-101
+    command: consul agent -server -data-dir /consul/data -node=consul-server-5-101 -bind=192.168.5.101 -ui -client=0.0.0.0 -join 192.168.5.100
+    depends_on:
+      - consul-server-5-100
+  #server 3
+  consul-server-5-102:
+    image: consul
+    ports:
+      - "8502:8500"
+    networks:
+      go:
+        ipv4_address: 192.168.5.102
+    container_name: consul-server-5-102
+    command: consul agent -server -data-dir /consul/data -node=consul-server-5-102 -bind=192.168.5.102 -ui -client=0.0.0.0 -join 192.168.5.100
+    depends_on:
+      - consul-server-5-100
+
+  #客户端 1
+
+  consul-client-5-200:
+    image: consul
+    ports:
+      - "8550:8500"
+    networks:
+      go:
+        ipv4_address: 192.168.5.200
+    container_name: consul-client-5-200
+    command: consul agent -data-dir /consul/data -node=consul-client-5-200 -bind=192.168.5.200 -ui -client=0.0.0.0 -join 192.168.5.100
+    depends_on:
+      - consul-server-5-100
+  #客户端 2
+  consul-client-5-201:
+    image: consul
+    ports:
+      - "8551:8500"
+    networks:
+      go:
+        ipv4_address: 192.168.5.201
+    container_name: consul-client-5-201
+    command: consul agent -data-dir /consul/data -node=consul-client-5-201 -bind=192.168.5.201 -ui -client=0.0.0.0 -join 192.168.5.100
+    depends_on:
+      - consul-server-5-100
+
+networks:
+  go:
+    external:
+      name: go
+
+
