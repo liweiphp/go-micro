@@ -16,3 +16,7 @@ docker network create --subnet=192.168.5.0/24 mynetwork
 3.构建consul镜像(alpine系统) consul目录下 docker build -t consul . 
 
 4.启动consul集群 consul目录下 docker-compose up -d
+
+tcp启动命令：docker exec -it go-tcp-server go run tcp/server
+
+请求命令：docker exec -it go-tcp-client go run tcp/client
