@@ -11,7 +11,7 @@ docker network create --subnet=192.168.5.0/24 mynetwork
 
 1.centos-go镜像构建 centos-go目录下 docker build -t centos-go .
 
-2.启动go  server go目录下 docker-compose up -d
+2.启动go  server go目录下 docker-compose up -d 地址映射修改成自己的 默认是：/www/study/golang/src/d5/tcp/client
 
 3.构建consul镜像(alpine系统) consul目录下 docker build -t consul . 
 
