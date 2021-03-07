@@ -1,0 +1,15 @@
+syntax = "proto3";
+package goods;
+option go_package = ".;goods";
+
+//定义服务
+service GoodsService{
+    rpc Get(Goods) returns (Goods){}
+}
+
+message Request{}
+
+message Goods{
+    int32 id = 1;
+    string name = 2;
+}
